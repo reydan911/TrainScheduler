@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Smart Train Scheduler</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🚄 Smart Train Scheduler</h1>
+        <p>AI-Powered Railway Management System</p>
+    </div>
+
+    <div class="upload-section">
+        <select id="algorithmSelect" class="algorithm-select">
+            <option value="Greedy">Greedy Algorithm</option>
+            <option value="DP">Dynamic Programming</option>
+        </select>
+
+        <div>
+            <div class="upload-icon">📁</div>
+            <h3>Upload Demand Data</h3>
+            <p>Select your CSV file containing passenger demand data</p>
+            <br>
+            <button class="upload-button" onclick="document.getElementById('csvFile').click()">Choose CSV File</button>
+            <button class="upload-button" onclick="regenerateSchedule()">Regenerate Schedule</button>
+
+            <input type="file" id="csvFile" class="file-input" accept=".csv" onchange="handleFileUpload(event)">
+        </div>
+    </div>
+
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Generating optimal schedule...</p>
+    </div>
+
+    <p id="runtimeText"></p>
+    <div id="statusMessage" class="status-message" style="display: none;"></div>
+
+    <div class="stats-grid" id="statsGrid" style="display: none;">
+        <div class="stat-card">
+            <div class="stat-number" id="totalTrains">0</div>
+            <div class="stat-label">Total Trains</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="totalPassengers">0</div>
+            <div class="stat-label">Total Passengers</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="avgOccupancy">0%</div>
+            <div class="stat-label">Avg Occupancy</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="platformUtil">0%</div>
+            <div class="stat-label">Platform Utilization</div>
+        </div>
+    </div>
+
+    <div class="complexity-analysis" id="complexityAnalysis"></div>
+
+    <div class="chart-container" style="margin: 40px auto; max-width: 900px; display: none;" id="chartWrapper">
+        <canvas id="dispatchChart"></canvas>
+    </div>
+
+    <div class="table-container" id="tableContainer" style="display: none;">
+        <div class="table-header">📊 Generated Train Schedule</div>
+        <div class="filter-section">
+            <input type="text" class="filter-input" placeholder="Search trains..." id="searchInput" onkeyup="filterTable()" />
+            <select class="filter-input" id="routeFilter" onchange="filterTable()">
+                <option value="">All Routes</option>
+                <option value="Putrajaya → KL Sentral">Putrajaya → KL</option>
+                <option value="KL Sentral → Putrajaya">KL → Putrajaya</option>
+            </select>
+        </div>
+        <table id="scheduleTable">
+            <thead>
+            <tr>
+                <th>Train ID</th>
+                <th>Route</th>
+                <th>Departure</th>
+                <th>Arrival</th>
+                <th>Platform</th>
+                <th>Passengers</th>
+            </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <div class="empty-state" id="emptyState">
+        <div class="empty-state-icon">🚂</div>
+        <h3>No Schedule Generated</h3>
+        <p>Upload a CSV file with demand data or load demo data to generate an optimized train schedule</p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
